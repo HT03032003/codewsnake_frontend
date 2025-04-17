@@ -1,0 +1,131 @@
+.document-detail-container {
+    position: relative;
+    min-height: 100vh;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.document-header {
+    text-align: center;
+}
+
+.document-title {
+    font-size: 34px;
+    color: #67e8f9;
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+    margin-bottom: 20px;
+}
+.robot-hand-outside {
+    position: absolute;
+    width: 220px;
+    filter: drop-shadow(0 0 14px rgba(0, 255, 255, 0.3));
+    pointer-events: none;
+    z-index: 2;
+}
+.robot-hand-outside-right {
+    top: -70px;
+    right: -170px;
+    transform: rotate(335deg);
+    animation: floatOutsideRight 3s ease-in-out infinite;
+}
+
+.robot-hand-outside-left {
+    top: -70px;
+    left: -170px;
+    transform: scaleX(-1) rotate(335deg);
+    animation: floatOutsideLeft 3s ease-in-out infinite;
+}
+
+.document-content {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    min-height: 360px;
+    padding: 10px 30px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 12px 30px rgba(0, 255, 255, 0.1),
+        inset 0 0 24px rgba(255, 255, 255, 0.03);
+    color: #e0faff;
+    text-align: justify;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.document-content h2,
+.document-content h3 {
+    color: #67e8f9;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+/* Nút Làm Quiz bên phải, nổi lên */
+.quiz-button-container {
+    align-self: flex-end;
+    margin-top: -20px;
+    margin-right: 10px;
+    position: fixed;
+    bottom: 30px;
+}
+
+.quiz-start-button {
+    background-color: #67e8f9;
+    border: none;
+    color: #0a0a23;
+    width: 60px;
+    height: 60px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.3);
+}
+
+.quiz-start-button:hover {
+    background-color: #38bdf8;
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.5);
+}
+
+@keyframes floatOutsideRight {
+
+    0%,
+    100% {
+        transform: rotate(350deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(350deg) translateY(-6px);
+    }
+}
+
+@keyframes floatOutsideLeft {
+
+    0%,
+    100% {
+        transform: scaleX(-1) rotate(350deg) translateY(0);
+    }
+
+    50% {
+        transform: scaleX(-1) rotate(350deg) translateY(-6px);
+    }
+}
+
+@media (max-width: 768px) {
+    .document-content {
+        padding: 24px;
+    }
+
+    .quiz-start-button {
+        width: 50px;
+        height: 50px;
+        font-size: 13px;
+    }
+}

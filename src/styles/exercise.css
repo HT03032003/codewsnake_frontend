@@ -1,0 +1,200 @@
+.practice-container {
+    display: flex;
+    margin: auto;
+    padding: 40px 20px;
+    gap: 40px;
+}
+
+.practice-container::before {
+    content: "";
+    position: absolute;
+    top: -70px;
+    left: 0;
+    width: 100%;
+    height: 102%;
+    background: url("./images/decoration.svg") no-repeat center top;
+    background-size: cover;
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ========== THỂ LỆ ========== */
+.rules-section {
+    flex: 3;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 32px 24px;
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.1), inset 0 0 20px rgba(0, 255, 255, 0.03);
+    align-self: flex-start;
+    height: fit-content;
+    position: sticky;
+    top: 130px; /* khoảng cách từ top khi cuộn */
+    height: fit-content;
+    z-index: 10;
+}
+
+.rules-title h2 {
+    text-align: center;
+    font-size: 28px;
+    color: #67e8f9;
+    margin-bottom: 16px;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+}
+
+.rules-text {
+    text-align: center;
+    font-size: 15px;
+    color: #a5f3fc;
+    margin-bottom: 20px;
+}
+
+.rules-section table {
+    width: 100%;
+}
+
+.rules-section ul {
+    padding: 0;
+    list-style: none;
+}
+
+.rules-section li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.easy-level::before,
+.medium-level::before,
+.hard-level::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.easy-level::before {
+    background: #22c55e;
+}
+
+.medium-level::before {
+    background: #facc15;
+}
+
+.hard-level::before {
+    background: #ef4444;
+}
+
+.easy-level-point {
+    color: #22c55e;
+}
+
+.medium-level-point {
+    color: #facc15;
+}
+
+.hard-level-point {
+    color: #ef4444;
+}
+
+/* ========== DANH SÁCH BÀI TẬP ========== */
+.exercises-section {
+    flex: 7;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.exercise-card {
+    position: relative;
+    height: 130px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 24px 20px 32px;
+    color: #fff;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 10px 20px rgba(0, 255, 255, 0.06), inset 0 0 12px rgba(0, 255, 255, 0.03);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.exercise-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 36px rgba(0, 255, 255, 0.14), inset 0 0 28px rgba(255, 255, 255, 0.06);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #67e8f9;
+    margin-bottom: 10px;
+}
+
+.card-description {
+    font-size: 14px;
+    color: #a5f3fc;
+    min-height: 48px;
+}
+
+.tag-level {
+    position: absolute;
+    top: 25px;
+    /* Đẩy lên cao hơn */
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.card-difficulty {
+    background: #1e293b;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: #facc15;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-info {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #67e8f9;
+}
+
+.card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.completed-tick {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.locked {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px dashed #67e8f9;
+}
+
+.locked-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 0, 0, 0.05);
+    color: #f87171;
+    font-size: 14px;
+    border: 1px dashed #f87171;
+    padding: 6px 14px;
+    border-radius: 10px;
+    backdrop-filter: blur(4px);
+    text-align: center;
+    z-index: 1;
+}

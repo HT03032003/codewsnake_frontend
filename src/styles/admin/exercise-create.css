@@ -1,0 +1,85 @@
+.admin {
+  max-width: 800px;
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px 40px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  color: #1e3b3b;
+}
+
+.admin h2 {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1e3b3b;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-form label {
+  font-weight: 500;
+  font-size: 12;
+  color: #1e3b3b;
+  text-align: left;
+}
+
+.admin-form input[type="text"],
+.admin-form textarea,
+.admin-form select {
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  outline: none;
+  width: 770px;
+  transition: 0.3s;
+  font-family: inherit;
+}
+
+
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+  border-color: #7bc6cc;
+  box-shadow: 0 0 0 4px rgba(123, 198, 204, 0.2);
+}
+
+/* Button */
+.btn-save {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(to right, #a8e6cf, #dcedc1);
+  color: #1e3b3b;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  align-self: flex-start;
+  margin-right: 10px;
+}
+
+.btn-cancel {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(to right, #ffb09e, #ffe4b5);
+  color: #1e3b3b;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  align-self: flex-start;
+}
+.btn-cancel:hover,
+.btn-save:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}

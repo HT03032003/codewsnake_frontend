@@ -1,0 +1,256 @@
+/* Màu pastel dựa trên hình ảnh */
+:root {
+    --primary-color: #A8CABA;
+    --secondary-color: #F8C8C4;
+    --background-color: #EDF1F0;
+    --text-color: #4A4A4A;
+    --menu-hover: #89A9A0;
+    --menu-active-bg: linear-gradient(to right, #ffb09e, #ffe4b5);
+    --menu-active-color: #333;
+    --menu-active-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.admin-layout {
+    display: flex;
+    height: 100vh;
+    align-items: stretch;
+    background: var(--primary-color);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.admin-sidebar {
+    width: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: background 0.4s ease-in-out;
+}
+
+.admin-logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #4A4A4A;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+.admin-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-menu li {
+    margin: 10px 0;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+}
+
+.admin-menu li a {
+    text-decoration: none;
+    color: #4A4A4A;
+    padding: 12px 18px;
+    display: block;
+    border-radius: 14px;
+    font-weight: 500;
+    transition: all 0.4s ease-in-out;
+    position: relative;
+    z-index: 2;
+}
+
+.admin-menu li a:hover {
+    transform: translateX(6px);
+    color: #fff;
+}
+
+.admin-menu li.active {
+    background: var(--menu-active-bg);
+    box-shadow: var(--menu-active-shadow);
+    transform: scale(1.03);
+}
+
+.admin-menu li.active a {
+    color: var(--menu-active-color);
+    font-weight: 600;
+}
+
+.admin-content {
+    flex: 1;
+    background: linear-gradient(165deg, #fdfcf6, #e5f9e5);
+    border-radius: 30px 0 0 30px;
+    overflow-y: auto;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;  /* Căn giữa theo chiều dọc */
+    justify-content: space-between; /* Canh hai bên */
+    width: 100%;
+    background: #ebffe99f; /* Đảm bảo nền giống hình */
+}
+
+.admin-box {
+    display: flex;
+    align-items: center;
+}
+
+.admin-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.admin-name {
+    font-weight: bold;
+}
+
+.admin-home {
+    flex-grow: 1;
+    text-align: right; /* Đưa "Quay về trang chủ" về phía bên phải */
+}
+
+.home-link {
+    text-decoration: none;
+    color: #89A9A0;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+.home-link:hover {
+    color: #ff8b94;
+}
+
+.admin-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffa9a5be;
+    padding: 5px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border-radius: 30px 30px 0 0px;
+}
+
+.admin-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+.admin-name {
+    font-weight: 600;
+    color: #1e3b3b;
+    font-size: 15px;
+}
+
+.admin-card {
+    background: rgba(255, 255, 255, 0.419);
+    backdrop-filter: blur(50px);
+    border-radius: 24px;
+    padding: 20px 20px;
+    max-width: 1300px;
+    margin: 0 10px;
+    box-shadow: 0 12px 40px rgba(153, 191, 177, 0.414);
+    color: #1e3b3b;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    height: auto;
+}
+
+.admin-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e3b3b;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.table-scroll-container {
+    max-height: 420px;
+    /* hoặc 60vh nếu muốn responsive */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+}
+
+/* Scrollbar cho Chrome */
+.table-scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #c4c4c4;
+    border-radius: 10px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #1e3b3b;
+    background-color: rgba(255, 255, 255, 0.65);
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 0;
+    font-size: 14px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid rgba(30, 59, 59, 0.1);
+    font-size: 12px;
+}
+
+.admin-table thead th {
+    background: rgba(210, 242, 230, 0.9);
+    font-weight: 600;
+    color: #1e3b3b;
+}
+
+.col-action {
+    width: 200px;
+    text-align: center !important;
+}
+
+/* === BUTTONS === */
+.admin-btn {
+    padding: 7px 16px;
+    font-size: 13px;
+    border: none;
+    border-radius: 8px;
+    margin: 2px;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-btn.edit {
+    background: linear-gradient(to right, #a8e6cf, #dcedc1);
+    color: #1e3b3b;
+}
+
+.admin-btn.save,
+.admin-btn.delete {
+    background: linear-gradient(to right, #ffaaa5, #ff8b94);
+}
+
+.admin-btn:hover {
+    opacity: 0.92;
+    transform: scale(1.05);
+}

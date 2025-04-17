@@ -1,0 +1,76 @@
+.detail-page {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    padding: 32px 24px;
+    max-width: 1280px;
+    margin: auto;
+    color: white;
+}
+
+.exercise-description {
+    flex: 2;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 16px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    outline: 1px solid rgba(0, 255, 255, 0.1);
+
+    box-shadow:
+        0 8px 32px rgba(0, 255, 255, 0.15),
+        0 4px 10px rgba(255, 255, 255, 0.08),
+        inset 0 0 20px rgba(255, 255, 255, 0.04),
+        inset 0 0 40px rgba(0, 255, 255, 0.06);
+    transition: all 0.3s ease;
+}
+
+.exercise-description:hover {
+    transform: scale(1.03); /* Phóng to nhẹ khi hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Tăng độ đổ bóng khi hover */
+}
+
+.exercise-description h4 {
+    font-size: 1.2rem;
+    color: #4CAF50; /* Xanh lá nổi bật */
+    margin-bottom: 15px;
+    border-bottom: 3px solid #FF7F50; /* Gạch chân cam san hô */
+    padding-bottom: 5px;
+}
+.exercise-description .question-text{
+    text-align: justify;
+}
+.exercise-description .question-text h2 {
+    font-size: 1.2rem;
+    color: #FF7F50; /* Cam san hô nổi bật */
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.exercise-description .question-text p {
+    font-size: 12px;
+    line-height: 1.8; /* Tăng khoảng cách giữa các dòng */
+    color: #ffffff; /* Màu chữ trung tính */
+    margin-bottom: 12px;
+}
+
+.exercise-description .question-text p:last-child {
+    margin-bottom: 0; /* Loại bỏ margin cuối */
+}
+
+.exercise-description .question-text .difficulty {
+    font-weight: bold;
+    color: #4CAF50; /* Xanh lá cho độ khó */
+    font-size: 1.2rem;
+}
+
+.exercise-description .question-text .xp {
+    font-weight: bold;
+    color: #FFDD57; /* Vàng sáng cho XP */
+    font-size: 1.2rem;
+}
+
+.container {
+    flex: 8;
+}

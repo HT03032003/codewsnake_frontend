@@ -1,0 +1,57 @@
+.home-btn {
+    text-align: left;
+    margin: 10px 40px;
+    color: #3b2a9f;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.content__header {
+    text-align: center;
+    margin: 20px 0 40px;
+}
+
+.content__header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1e3b3b;
+    margin-bottom: 10px;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 0 20px;
+}
+
+.card {
+    flex: 1;
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(18px);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    padding: 24px;
+    text-align: center;
+    transition: 0.3s ease;
+    height: 100px;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+    color: #3b2a9f;
+    margin-bottom: 8px;
+}
+
+.card p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a4a4a;
+}
