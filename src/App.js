@@ -71,7 +71,7 @@ function AppContent() {
           });
 
           if (response.data.user.is_superuser) {
-            setUser(response.data.user);
+            setUser(response.data);
           } else {
             setUser(null);
           }
