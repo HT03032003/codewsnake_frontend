@@ -60,8 +60,8 @@ const AdminEditDocument = () => {
     return (
         <Layout>
             <div className="edit-document-container">
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                    <Link to="/admin/questions">
+                <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                    <Link to={`/admin/document/${id}/questions`}>
                         <button className="admin-btn edit">Danh sách câu hỏi</button>
                     </Link>
                 </div>
@@ -90,7 +90,7 @@ const AdminEditDocument = () => {
                             value={content}
                             onChange={setContent}
                             theme="snow"
-                            style={{color: "black"}}
+                            style={{ color: "black" }}
                         />
                     </div>
 

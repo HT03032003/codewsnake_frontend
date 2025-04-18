@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Layout from "./Layout";
 
 const AdminQuestion = () => {
     const [questions, setQuestions] = useState([]);
+    const { id } = useParams();
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        axios.get(`${process.env.REACT_APP_API_URL}/dashboard/questions/`, {
+        axios.get(`${process.env.REACT_APP_API_URL}/dashboard/document/${id}/questions/`, {
             headers: { Authorization: `Bearer ${token}` },
         })
-            .then(res => {
-                setQuestions(res.data);
-            })
-            .catch(err => {
-                console.error("Lỗi khi lấy danh sách câu hỏi:", err);
-            });
-    }, []);
+            .then(res => setQuestions(res.data))
+            .catch(err => console.error("Lỗi khi lấy câu hỏi:", err));
+    }, [id]);
     const handleDelete = async (postId) => {
         const token = localStorage.getItem("accessToken");
 
@@ -44,6 +41,11 @@ const AdminQuestion = () => {
     return (
         <Layout>
             <div className="admin-wrapper">
+                <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                    <Link to={`/admin/document/${id}/question/create`}>
+                        <button className="admin-btn edit">Thêm câu hỏi</button>
+                    </Link>
+                </div>
                 <h2 className="admin-title">Danh sách câu hỏi</h2>
                 <div className="admin-card">
                     <div className="table-scroll-container">

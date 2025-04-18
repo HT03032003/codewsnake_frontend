@@ -40,6 +40,7 @@ import AdminEditExercise from "./pages/Admin/AdminEditExercise";
 import AdminCreateExercise from "./pages/Admin/AdminCreateExercise";
 import AdminQuestion from "./pages/Admin/AdminQuestion";
 import AdminEditQuestion from "./pages/Admin/AdminEditQuestion";
+import AdminCreateQuestion from "./pages/Admin/AdminCreateQuestion";
 
 import "./App.css";
 import "./styles/base.css";
@@ -126,8 +127,9 @@ function AppContent() {
           <Route path="exercises" element={<AdminExercises />} />
           <Route path="exercise/create" element={<AdminCreateExercise />} />
           <Route path="exercise/edit/:id" element={<AdminEditExercise />} />
-          <Route path="questions" element={<AdminQuestion />} />
+          <Route path="document/:id/questions" element={<AdminQuestion />} />
           <Route path="question/:id" element={<AdminEditQuestion />} />
+          <Route path="document/:id/question/create" element={<AdminCreateQuestion />} />
         </Route>
       </Routes>
 
