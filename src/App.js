@@ -72,13 +72,9 @@ function AppContent() {
 
           if (response.data.user.is_superuser) {
             setUser(response.data);
-          } else {
-            setUser(null);
           }
-          setUser(response.data);
         } catch (error) {
           console.error("Failed to fetch user:", error);
-          localStorage.removeItem("accessToken");
           navigate("/login", { replace: true });
         } finally {
           setLoading(false);
