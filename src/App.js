@@ -63,9 +63,9 @@ function AppContent() {
     useEffect(() => {
       const fetchUser = async () => {
         try {
-          const token = localStorage.getItem("accessToken");
-          if (!token) throw new Error("No token found");
-
+          const token = localStorage.getItem('accessToken');
+          if (!token) throw new Error('No token found');
+  
           const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile/`, {
             headers: { Authorization: `Bearer ${token}` },
           });
@@ -75,6 +75,7 @@ function AppContent() {
           } else {
             setUser(null);
           }
+          setUser(response.data);
         } catch (error) {
           console.error("Failed to fetch user:", error);
           localStorage.removeItem("accessToken");
@@ -83,7 +84,7 @@ function AppContent() {
           setLoading(false);
         }
       };
-
+  
       fetchUser();
     }, []);
 
