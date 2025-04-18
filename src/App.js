@@ -55,7 +55,6 @@ function AppContent() {
     ["/login", "/register"].includes(location.pathname) ||
     location.pathname.startsWith("/admin");
 
-  // ✅ Move ProtectedRoute inside AppContent
   function ProtectedRoute() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -69,12 +68,14 @@ function AppContent() {
           const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile/`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-          setUser(response.data.user);
-          // if (response.data.user.is_superuser) {
-          //   setUser(response.data.user);
-          // } else {
-          //   setUser(null);
-          // }
+
+          const userData = response.data?.user;
+
+          if (userData?.is_superuser) {
+            setUser(response.data); // full object: { user, profile, completed, incompleted }
+          } else {
+            setUser(null);
+          }
         } catch (error) {
           console.error("Failed to fetch user:", error);
           localStorage.removeItem("accessToken");
@@ -85,7 +86,7 @@ function AppContent() {
       };
 
       fetchUser();
-    }, []);
+    }, [navigate]);
 
     if (loading) return <div>Loading...</div>;
 
@@ -138,7 +139,9 @@ function AppContent() {
 
 function App() {
   return (
+    <Router>
       <AppContent />
+    </Router>
   );
 }
 
