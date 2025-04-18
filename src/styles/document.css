@@ -6,27 +6,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-  }
-  
-  .documents-header h2 {
+}
+
+.documents-header h2 {
     font-size: 32px;
     color: #67e8f9;
     text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
     margin-bottom: 32px;
-  }
-  
-  .documents-body {
+}
+
+.documents-body {
     display: flex;
     gap: 40px;
     justify-content: center;
     width: 100%;
     flex-wrap: wrap;
-    align-items: flex-start;
-  }
-  
-  /* Danh sách nằm bên trái */
-  .documents-list {
+}
+
+/* Danh sách nằm bên trái */
+.documents-list {
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -34,9 +32,10 @@
     max-width: 600px;
     list-style: none;
     padding: 0;
-  }
-  
-  .document-item {
+}
+
+/* Từng item */
+.document-item {
     background: rgba(255, 255, 255, 0.04);
     border-radius: 16px;
     padding: 16px 20px;
@@ -44,51 +43,56 @@
     backdrop-filter: blur(12px);
     box-shadow: 0 6px 20px rgba(0, 255, 255, 0.12);
     transition: all 0.3s ease;
-  }
-  
-  .document-item:hover {
+}
+
+.document-item:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05);
-  }
-  
-  .document-link {
+    box-shadow:
+        0 10px 30px rgba(0, 255, 255, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.document-link {
     display: flex;
     align-items: center;
     gap: 14px;
     color: #67e8f9;
     font-size: 16px;
     text-decoration: none;
-  }
-  
-  .document-icon {
+}
+
+/* Icon trái */
+.document-icon {
     width: 36px;
     height: 36px;
     object-fit: contain;
     filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.4));
-  }
-  
-  /* Robot nổi bên phải và giữ vị trí khi cuộn */
-  .robot-container {
+}
+
+/* Robot nổi lên bên phải */
+.robot-container {
     flex: 1;
-    position: sticky;
-    top: 100px; /* ✅ giữ robot tại vị trí khi cuộn */
-    align-self: flex-start;
-    margin-bottom: 200px; /* ✅ tránh đè footer */
-  }
-  
-  .robot-img {
-    width: 280px;
-    max-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.robot-img {
+    height: auto;
     animation: float 3s ease-in-out infinite;
     filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
-  }
-  
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
+    position: fixed;
+    top: 95px; 
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
     }
+
     50% {
-      transform: translateY(-12px);
+        transform: translateY(-12px);
     }
-  }
-  
+}
