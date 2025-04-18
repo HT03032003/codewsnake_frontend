@@ -66,7 +66,7 @@ function AppContent() {
           const token = localStorage.getItem("accessToken");
           if (!token) throw new Error("No token found");
 
-          const response = await axios.get("http://localhost:8000/user/profile/", {
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile/`, {
             headers: { Authorization: `Bearer ${token}` },
           });
 
