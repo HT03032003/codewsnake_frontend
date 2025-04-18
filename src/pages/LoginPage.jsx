@@ -40,7 +40,7 @@ function LoginPage() {
         // Điều hướng đến trang chính (nếu cần)
         if (data.isAdmin) {
           // Nếu là admin, chuyển tới trang admin
-          navigate('/');
+          navigate('/admin');
         } else {
           // Nếu không phải admin, chuyển tới trang chính
           navigate('/');
