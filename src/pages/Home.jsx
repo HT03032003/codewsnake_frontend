@@ -19,7 +19,7 @@ const Home = () => {
       <section className="feature-grid">
         <Link to="/code-editor" className="feature-card">
           <h2>🔥 Chạy Code</h2>
-          <p>Trình biên dịch Python trực tiếp trên trình duyệt.</p>
+          <p>Trình thông dịch Python trực tiếp trên trình duyệt.</p>
         </Link>
 
         <Link to="/document" className="feature-card">

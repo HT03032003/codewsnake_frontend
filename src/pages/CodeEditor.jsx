@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Editor } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faUpload, faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +13,26 @@ const CodeEditor = () => {
   const [requiresInput, setRequiresInput] = useState(false);
   const [userInputs, setUserInputs] = useState([]);
   const [userInput, setUserInput] = useState('');
+  const [currentPrompt, setCurrentPrompt] = useState('');
   const navigate = useNavigate();
+  const prevOutputRef = useRef('');
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (requiresInput && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [requiresInput]);
+
+  const extractPromptsFromCode = (code) => {
+    const promptRegex = /input\((['"])?(.*?)\1?\)/g;
+    let match;
+    const prompts = [];
+    while ((match = promptRegex.exec(code)) !== null) {
+      prompts.push(match[2] || "");
+    }
+    return prompts;
+  };
 
   const handleEditorChange = (value) => {
     setCode(value);
@@ -22,6 +41,8 @@ const CodeEditor = () => {
     setRequiresInput(false);
     setUserInputs([]);
     setUserInput('');
+    setCurrentPrompt('');
+    prevOutputRef.current = '';
   };
 
   const runCode = () => {
@@ -29,45 +50,51 @@ const CodeEditor = () => {
     setUserInput('');
     setOutput('Đang chạy mã...');
     setRequiresInput(false);
+    const prompts = extractPromptsFromCode(code);
+    setCurrentPrompt(prompts[0] || '');
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/practice/run_code/`, { code, inputs: [] })
       .then((response) => {
         const { output, requiresInput } = response.data;
         setOutput(output);
+        prevOutputRef.current = output;
         setRequiresInput(requiresInput || false);
       })
       .catch((error) => {
-        if (error.response && error.response.data.output) {
-          setOutput(error.response.data.output);  // In ra thông báo lỗi chi tiết
-        } else {
-          setOutput('Lỗi khi chạy mã.');
-        }
+        const errorOutput = error.response?.data?.output || 'Lỗi khi chạy mã.';
+        setOutput(errorOutput);
+        prevOutputRef.current = errorOutput;
         console.error(error);
       });
   };
 
-
   const handleUserInput = () => {
     const newInputs = [...userInputs, userInput];
+    const prompts = extractPromptsFromCode(code);
+    const newPrompt = prompts[newInputs.length - 1] || "";
+    const labelPrompt = prompts[newInputs.length] || "";
     setUserInputs(newInputs);
     setUserInput('');
-    setRequiresInput(false); // Ẩn ô nhập liệu
+    setRequiresInput(false);
+    setCurrentPrompt(labelPrompt);
 
     axios
-      .post(`${process.env.REACT_APP_API_URL}/practice/run_code/`, { code, inputs: newInputs })
+      .post(`${process.env.REACT_APP_API_URL}/practice/run_code/`, {
+        code,
+        inputs: newInputs,
+      })
       .then((response) => {
-        const { output, requiresInput } = response.data;
-        setOutput(output || 'Mã không có kết quả');
+        const { output: fullOutput, requiresInput } = response.data;
+        const newPart = fullOutput.replace(prevOutputRef.current, '');
+        const localEcho = `${newPrompt}${userInput}\n`;
+        prevOutputRef.current = fullOutput;
+        setOutput(prev => prev + localEcho + newPart);
         setRequiresInput(requiresInput || false);
       })
       .catch((error) => {
-        if (error.response && error.response.data.output) {
-          setOutput(error.response.data.output);  // In ra thông báo lỗi chi tiết
-        } else {
-          setOutput('Lỗi khi gửi input.');
-        }
-        console.error(error);
+        const errorOutput = error.response?.data?.output || 'Lỗi khi gửi input.';
+        setOutput(prev => prev + '\n' + errorOutput);
       });
   };
 
@@ -77,17 +104,17 @@ const CodeEditor = () => {
       navigate("/login");
     }
 
-    axios.post(`${process.env.REACT_APP_API_URL}/practice/correct_code/`, { code: code })
+    axios.post(`${process.env.REACT_APP_API_URL}/practice/correct_code/`, { code })
       .then(response => {
         if (response.data.corrected_code) {
           setCode(response.data.corrected_code);
           setErrors('');
         } else {
-          setErrors('No code errors found');
+          setErrors('Không tìm thấy lỗi nào trong mã.');
         }
       })
       .catch(err => {
-        setErrors('Error: ' + (err.response?.data?.error || 'Unable to connect to API.'));
+        setErrors('Lỗi: ' + (err.response?.data?.error || 'Không thể kết nối đến API.'));
       });
   };
 
@@ -103,22 +130,23 @@ const CodeEditor = () => {
   return (
     <div className="container">
       <div className="controls">
-        <button onClick={runCode} className="control-button run">
+        <button onClick={runCode} className="control-button run" data-tooltip="Chạy code">
           <FontAwesomeIcon icon={faPlay} />
         </button>
-        <button onClick={() => document.getElementById('upload-file').click()} className="control-button upload">
+        <button onClick={() => document.getElementById('upload-file').click()} className="control-button upload" data-tooltip="Tải lên file">
           <FontAwesomeIcon icon={faUpload} />
         </button>
-        <button onClick={handleCodeCorrection} className="control-button edit">
+        <button onClick={handleCodeCorrection} className="control-button edit" data-tooltip="Gợi ý sửa lỗi">
           <FontAwesomeIcon icon={faEdit} />
         </button>
       </div>
+
       <div className="editor-container editor-boder">
         <Editor
           language="python"
           value={code}
           onChange={handleEditorChange}
-          theme="vs-dark" // Hoặc "vs-light", hoặc custom
+          theme="vs-dark"
           height="400px"
           options={{
             fontSize: 14,
@@ -130,26 +158,36 @@ const CodeEditor = () => {
             lineNumbers: 'on',
             renderLineHighlight: 'all',
             tabSize: 4,
-            background: 'transparent',
+            background: 'transparent'
           }}
         />
-
       </div>
+
       <div className="terminal">
         <h4 className='terminal-title'>Terminal Output:</h4>
-        <pre>{requiresInput && (
-          <div className="input-section">
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder="Nhập dữ liệu"
-            />
-            <button onClick={handleUserInput}>Gửi</button>
-          </div>
-        )}{output}</pre>
+        <pre>
+          {requiresInput && (
+            <div className="input-section">
+              <label>{currentPrompt}</label>
+              <input
+                ref={inputRef}
+                type="text"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleUserInput();
+                  }
+                }}
+                placeholder="Nhập dữ liệu"
+              />
+            </div>
+          )}
+          {output}
+        </pre>
         {errors && <p style={{ color: 'red' }}>{errors}</p>}
       </div>
+
       <input
         id="upload-file"
         type="file"

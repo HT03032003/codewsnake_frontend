@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Editor } from '@monaco-editor/react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -15,7 +15,9 @@ function ExerciseDetail() {
     const [requiresInput, setRequiresInput] = useState(false);
     const [userInputs, setUserInputs] = useState([]);
     const [userInput, setUserInput] = useState('');
+    const [currentPrompt, setCurrentPrompt] = useState('');
     const navigate = useNavigate();
+    const inputRef = useRef(null);
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
@@ -35,19 +37,16 @@ function ExerciseDetail() {
                 });
 
                 if (response.status === 401) {
-                    // Token không hợp lệ hoặc hết hạn
                     navigate("/login");
                     return;
                 }
 
                 if (response.status === 403) {
-                    // Không đủ điểm để mở bài
                     navigate("/exercise");
                     return;
                 }
 
                 if (!response.ok) {
-                    // Các lỗi khác như 404
                     throw new Error(`Lỗi server: ${response.status}`);
                 }
 
@@ -61,6 +60,22 @@ function ExerciseDetail() {
         fetchExercise();
     }, [id, navigate]);
 
+    useEffect(() => {
+        if (requiresInput && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [requiresInput]);
+
+    const extractPromptsFromCode = (code) => {
+        const promptRegex = /input\((['"])?(.*?)\1?\)/g;
+        let match;
+        const prompts = [];
+        while ((match = promptRegex.exec(code)) !== null) {
+            prompts.push(match[2] || "");
+        }
+        return prompts;
+    };
+
     const handleEditorChange = (value) => {
         setCode(value);
         setOutput('');
@@ -68,6 +83,7 @@ function ExerciseDetail() {
         setRequiresInput(false);
         setUserInputs([]);
         setUserInput('');
+        setCurrentPrompt('');
     };
 
     const runCode = () => {
@@ -75,6 +91,8 @@ function ExerciseDetail() {
         setUserInput('');
         setOutput('Đang chạy mã...');
         setRequiresInput(false);
+        const prompts = extractPromptsFromCode(code);
+        setCurrentPrompt(prompts[0] || '');
 
         axios
             .post(`${process.env.REACT_APP_API_URL}/practice/run_code/`, { code, inputs: [] })
@@ -85,7 +103,7 @@ function ExerciseDetail() {
             })
             .catch((error) => {
                 if (error.response && error.response.data.output) {
-                    setOutput(error.response.data.output);  // In ra thông báo lỗi chi tiết
+                    setOutput(error.response.data.output);
                 } else {
                     setOutput('Lỗi khi chạy mã.');
                 }
@@ -93,30 +111,36 @@ function ExerciseDetail() {
             });
     };
 
-
     const handleUserInput = () => {
         const newInputs = [...userInputs, userInput];
+        const prompts = extractPromptsFromCode(code);
+        const newPrompt = prompts[newInputs.length - 1] || "";
+        const labelPrompt = prompts[newInputs.length] || "";
+
         setUserInputs(newInputs);
         setUserInput('');
-        setRequiresInput(false); // Ẩn ô nhập liệu
+        setRequiresInput(false);
+        setCurrentPrompt(labelPrompt);
 
         axios
-            .post(`${process.env.REACT_APP_API_URL}/practice/run_code/`, { code, inputs: newInputs })
+            .post(`${process.env.REACT_APP_API_URL}/practice/run_code/`, {
+                code,
+                inputs: newInputs,
+            })
             .then((response) => {
-                const { output, requiresInput } = response.data;
-                setOutput(output || 'Mã không có kết quả');
+                const { output: fullOutput, requiresInput } = response.data;
+                const localEcho = `${newPrompt}${userInput}\n`;
+                setOutput(prev => prev + localEcho + fullOutput);
                 setRequiresInput(requiresInput || false);
             })
             .catch((error) => {
                 if (error.response && error.response.data.output) {
-                    setOutput(error.response.data.output);  // In ra thông báo lỗi chi tiết
+                    setOutput(prev => prev + '\n' + error.response.data.output);
                 } else {
-                    setOutput('Lỗi khi gửi input.');
+                    setOutput(prev => prev + '\nLỗi khi gửi input.');
                 }
-                console.error(error);
             });
     };
-
 
     const checkCode = () => {
         const token = localStorage.getItem('accessToken');
@@ -174,7 +198,7 @@ function ExerciseDetail() {
         })();
     };
 
-    if (!exercise) return <p>Loading...</p>;  // Ensure exercise is loaded
+    if (!exercise) return <p>Loading...</p>;
 
     return (
         <div className="detail-page">
@@ -190,9 +214,7 @@ function ExerciseDetail() {
             </div>
             <div className="container">
                 <div className="controls">
-                    <button onClick={runCode} className="btn">
-                        Chạy code
-                    </button>
+                    <button onClick={runCode} className="btn">Chạy code</button>
                     <button className='btn' onClick={checkCode}>Kiểm tra mã</button>
                 </div>
                 <div className="editor-container">
@@ -200,7 +222,7 @@ function ExerciseDetail() {
                         language="python"
                         value={code}
                         onChange={handleEditorChange}
-                        theme="vs-dark" // Hoặc "vs-light", hoặc custom
+                        theme="vs-dark"
                         height="400px"
                         options={{
                             fontSize: 14,
@@ -218,17 +240,24 @@ function ExerciseDetail() {
                 </div>
                 <div className="terminal">
                     <h4 className='terminal-title'>Terminal Output:</h4>
-                    <pre>{requiresInput && (
-                        <div className="input-section">
-                            <input
-                                type="text"
-                                value={userInput}
-                                onChange={(e) => setUserInput(e.target.value)}
-                                placeholder="Nhập dữ liệu"
-                            />
-                            <button onClick={handleUserInput}>Gửi</button>
-                        </div>
-                    )}{output}</pre>
+                    <pre>
+                        {requiresInput && (
+                            <div className="input-section">
+                                <label>{currentPrompt}</label>
+                                <input
+                                    ref={inputRef}
+                                    type="text"
+                                    value={userInput}
+                                    onChange={(e) => setUserInput(e.target.value)}
+                                    placeholder="Nhập dữ liệu"
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') handleUserInput();
+                                    }}
+                                />
+                            </div>
+                        )}
+                        {output}
+                    </pre>
                     {errors && <p style={{ color: 'red' }}>{errors}</p>}
                 </div>
             </div>

@@ -59,9 +59,9 @@ function Exercise() {
               </td>
               <td>
                 <ul style={{ listStyle: 'none' }}>
-                  <li className='easy-level-point'>x5 XP</li>
-                  <li className='medium-level-point'>x10 XP</li>
-                  <li className='hard-level-point'>x15 XP</li>
+                  <li className='easy-level-point'>+5 XP</li>
+                  <li className='medium-level-point'>+10 XP</li>
+                  <li className='hard-level-point'>+15 XP</li>
                 </ul>
               </td>
             </tr>
@@ -83,9 +83,14 @@ function Exercise() {
                 {exercise.difficulty === 'trung bình' && <p>x10 XP</p>}
                 {exercise.difficulty === 'khó' && <p>x15 XP</p>}
               </div>
-              {exercise.is_completed && (
-                <div className="completed-tick">✅ Hoàn thành</div>
+              {typeof exercise.is_completed === 'boolean' && exercise.is_unlocked && (
+                <div
+                  className={`completed-tick ${exercise.is_completed ? 'done' : 'in-progress'}`}
+                >
+                  {exercise.is_completed ? '✅ Hoàn thành' : 'Đang làm'}
+                </div>
               )}
+
               {!exercise.is_unlocked && (
                 <div className="locked-overlay">🔒 Bài bị khóa</div>
               )}
