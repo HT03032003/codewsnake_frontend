@@ -22,6 +22,7 @@
     margin-bottom: 10px;
     position: sticky;
     top: 100px;
+    z-index: 2;
 }
 
 .control-button {
