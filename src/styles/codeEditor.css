@@ -20,6 +20,8 @@
     justify-content: center;
     gap: 20px;
     margin-bottom: 10px;
+    position: sticky;
+    top: 100px;
 }
 
 .control-button {
