@@ -1,3 +1,7 @@
+.admin-image-container {
+    min-height: 150px;
+    height: 100%;
+}
 .admin-image-container .avatar {
     width: 140px;
     height: 140px;
