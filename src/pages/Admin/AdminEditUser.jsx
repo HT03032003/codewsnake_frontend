@@ -69,7 +69,7 @@ const AdminEditUser = () => {
                         <div className="admin-image-container">
                             {user.profile?.avatar ? (
                                 <img
-                                    src={`${process.env.REACT_APP_API_URL}${user.profile.avatar}`}
+                                    src={`${user.profile.avatar}`}
                                     alt="Avatar"
                                     className="avatar"
                                 />

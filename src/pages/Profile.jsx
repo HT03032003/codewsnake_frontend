@@ -50,7 +50,7 @@ const UserProfile = () => {
                     <div className="avatar-container">
                         {profile.profile.avatar ? (
                             <img
-                                src={`${process.env.REACT_APP_API_URL}${profile.profile.avatar}`}
+                                src={`${profile.profile.avatar}`}
                                 alt="Avatar"
                                 className="avatar"
                             />

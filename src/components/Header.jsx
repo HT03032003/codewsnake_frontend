@@ -91,7 +91,7 @@ const Header = () => {
           {user ? (
             <div className="user-info">
               <img
-                src={`${process.env.REACT_APP_API_URL}${user.profile.avatar}`}
+                src={`${user.profile.avatar}`}
                 alt="User Avatar"
                 className="avatar-header"
                 onClick={toggleMenu}
