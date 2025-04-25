@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "./Layout";
+import "../../styles/admin/user.css";
 
 const AdminEditUser = () => {
     const { id } = useParams();
@@ -78,9 +79,9 @@ const AdminEditUser = () => {
                         </div>
 
                         <div className="admin-form-fields">
-                            <table>
+                            <table className="admin-user-info">
                                 <tr>
-                                    <td><label className="form-label">Tên người dùng:</label></td>
+                                    <td className="label"><label className="form-label">Tên người dùng:</label></td>
                                     <td><input
                                         type="text"
                                         name="username"
@@ -91,7 +92,7 @@ const AdminEditUser = () => {
                                     /></td>
                                 </tr>
                                 <tr>
-                                    <td><label className="form-label">Email:</label></td>
+                                    <td className="label"><label className="form-label">Email:</label></td>
                                     <td><input
                                         type="email"
                                         name="email"
@@ -102,7 +103,7 @@ const AdminEditUser = () => {
                                     /></td>
                                 </tr>
                                 <tr>
-                                    <td><label className="form-label">Địa chỉ:</label></td>
+                                    <td className="label"><label className="form-label">Địa chỉ:</label></td>
                                     <td><input
                                         type="text"
                                         name="address"
@@ -112,7 +113,7 @@ const AdminEditUser = () => {
                                     /></td>
                                 </tr>
                                 <tr>
-                                    <td><label className="form-label">Số điện thoại:</label></td>
+                                    <td className="label"><label className="form-label">Số điện thoại:</label></td>
                                     <td><input
                                         type="text"
                                         name="phone_number"
