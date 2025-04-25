@@ -19,7 +19,7 @@ const AdminAccounts = () => {
       .then((res) => setUsers(res.data))
       .catch((err) => console.error("Lỗi:", err));
   };
-
+  console.log(users);
   const handleDelete = async (userId) => {
     const token = localStorage.getItem("accessToken");
     if (!token) return alert("Bạn chưa đăng nhập!");
@@ -60,11 +60,7 @@ const AdminAccounts = () => {
                   <tr key={user.id}>
                     <td>{user.id}</td>
                     <td>
-                      {user.profile?.avatar ? (
-                        <img src={user.profile.avatar} className="admin-avatar" />
-                      ) : (
-                        "Không có"
-                      )}
+                       <img src={user.profile.avatar} className="admin-avatar" />
                     </td>
                     <td>{user.username}</td>
                     <td>{user.email}</td>

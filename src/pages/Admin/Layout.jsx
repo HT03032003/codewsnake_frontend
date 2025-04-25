@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
         {user && (
           <div className="admin-info">
           <div className="admin-box">
-            <img src={`${process.env.REACT_APP_API_URL}${user.profile.avatar}`} alt="Avatar" className="admin-avatar" />
+            <img src={`${user.profile.avatar}`} alt="Avatar" className="admin-avatar" />
             <span className="admin-name">{user.user.username}</span>
           </div>
           <div className="admin-home">
