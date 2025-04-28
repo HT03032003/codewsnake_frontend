@@ -64,7 +64,7 @@ const Home = () => {
             <p>
               Đọc, hiểu, trả lời các câu hỏi Python với ba mức độ: Dễ, Trung Bình, Khó. Kiểm tra câu trả lời đúng hay sai.
             </p>
-            <Link to="/code-editor" className="btn">Vào trình biên dịch</Link>
+            <Link to="/exercise" className="btn">Làm bài tập</Link>
           </div>
           <div className="feature-image">
             <img src="/images/code3d.png" alt="Run Code" />
@@ -78,7 +78,7 @@ const Home = () => {
             <p>
               Viết, chạy và kiểm tra mã Python trên trình duyệt với giao diện thân thiện và hiệu ứng nổi bật như hacker! Cho phép upload code từ file, tích hợp chatgpt hỗ trợ sửa code cho người học.
             </p>
-            <Link to="/document" className="btn">Xem tài liệu</Link>
+            <Link to="/code-editor" className="btn">Vào coding</Link>
           </div>
           <div className="feature-image">
             <img src="/images/practice.png" alt="Docs" />
@@ -92,7 +92,7 @@ const Home = () => {
             <p>
               Cộng đồng vui vẻ thân thiện, nơi giao lưu gặp gỡ và kết bạn. Tham gia cộng đồng để giúp đỡ nhau cải thiện các kĩ năng về code.
             </p>
-            <Link to="/code-editor" className="btn">Vào trình biên dịch</Link>
+            <Link to="/community" className="btn">Vào cộng đồng</Link>
           </div>
           <div className="feature-image">
             <img src="/images/community.png" alt="Run Code" />

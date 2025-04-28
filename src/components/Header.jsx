@@ -103,7 +103,6 @@ const Header = () => {
                       <li><Link to="/admin">Trang admin</Link></li>
                     )}
                     <li><Link to="/profile">Thông tin cá nhân</Link></li>
-                    <li><Link to="/settings">Cài đặt</Link></li>
                     <li><button className="logout-btn" onClick={handleLogout}>Logout</button></li>
                   </ul>
                 </div>
