@@ -26,7 +26,7 @@ const EditProfile = () => {
                     },
                 });
                 setProfile(response.data);
-                setAvatarPreview(response.data.profile.avatar ? `${process.env.REACT_APP_API_URL}${response.data.profile.avatar}` : `${process.env.REACT_APP_API_URL}/media/default.png`);
+                setAvatarPreview(response.data.profile.avatar ? `${response.data.profile.avatar}` : `${process.env.REACT_APP_API_URL}/media/default.png`);
                 setLoading(false);
             } catch (err) {
                 setError('Không thể lấy thông tin người dùng.');
