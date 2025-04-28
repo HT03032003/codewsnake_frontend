@@ -185,8 +185,8 @@ const Community = () => {
                                 <div key={post.id} className="community-post-card">
                                     <h3>{post.title}</h3>
                                     <p className="content-post">{post.content}</p>
-                                    {post.image_url ? (
-                                        <img src={post.image_url} alt={post.title} />
+                                    {post.image ? (
+                                        <img src={post.image} alt={post.title} />
                                     ) : ''}
                                 </div>
                             </Link>

@@ -157,7 +157,7 @@ const Post = () => {
 
                 <p className="content">{post.content}</p>
                 {post.image && (
-                    <img src={`${process.env.REACT_APP_API_URL}${post.image}`} alt={post.title} className="post-image" />
+                    <img src={`${post.image}`} alt={post.title} className="post-image" />
                 )}
                 <p><strong>Tác giả:</strong> {post.author}</p>
 
