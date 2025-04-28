@@ -112,7 +112,7 @@ const EditPost = () => {
                                 <>
                                     <p>Ảnh hiện tại:</p>
                                     <img
-                                        src={`${process.env.REACT_APP_API_URL}${image}`}
+                                        src={`${image}`}
                                         alt="Current"
                                         className="preview-image-post"
                                     />
