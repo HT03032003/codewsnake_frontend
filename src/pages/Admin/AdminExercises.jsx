@@ -31,7 +31,7 @@ const AdminExercises = () => {
 
     if (window.confirm("Bạn có chắc chắn muốn xóa bài tập này không?")) {
       try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/admin/exercises/delete/${exerciseId}/`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/dashboard/exercise/delete/${exerciseId}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

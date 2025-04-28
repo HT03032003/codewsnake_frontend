@@ -30,7 +30,7 @@ const AdminDocuments = () => {
 
         if (window.confirm("Bạn có chắc chắn muốn xóa tài liệu này không?")) {
             axios
-                .delete(`${process.env.REACT_APP_API_URL}/document/delete/${id}/`, {
+                .delete(`${process.env.REACT_APP_API_URL}/dashboard/document/delete/${id}/`, {
                     headers: { Authorization: `Bearer ${token}` },
                 })
                 .then(() => {
