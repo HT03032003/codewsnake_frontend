@@ -1,32 +1,80 @@
 .admin-image-container {
     min-height: 150px;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .admin-image-container .avatar {
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    border: 4px solid #ffb09e;
+    border: 4px solid #b3e3d8;
     object-fit: cover;
-    box-shadow: 0 0 20px rgba(255, 94, 0, 0.5);
+    box-shadow: 0 0 24px rgba(130, 200, 180, 0.6), 0 0 12px rgba(130, 200, 180, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
- 
+
+.admin-image-container .avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 28px rgba(130, 200, 180, 0.7);
+}
+
 .admin-form-fields .admin-user-info {
     margin: 20px auto;
+    width: 90%;
 }
+
 .admin-form-fields .admin-user-info .label {
     text-align: left;
     padding: 10px;
+    font-size: 14px;
+    color: #444;
 }
 
 .form-input {
-    width: 500px;
-    padding: 12px 12px 12px 40px;
-    background: rgb(248, 248, 248);
-    border: 2px solid #ffb09e;
-    border-radius: 12px;
+    width: 100%;
+    max-width: 460px;
+    padding: 12px 16px;
+    background: #fdfdfd;
+    border: 2px solid #b3e3d8;
+    border-radius: 14px;
     outline: none;
-    transition: 0.3s;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     font-family: 'Tektur', sans-serif;
-    font-size: 12px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.04);
+}
+
+.form-input:focus {
+    border-color: #91d6c7;
+    box-shadow: 0 0 0 3px rgba(145, 214, 199, 0.3);
+}
+
+.progress-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+    font-size: 13px;
+    color: #444;
+}
+
+progress {
+    width: 90%;
+    height: 12px;
+    appearance: none;
+    border-radius: 6px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 6px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #91d6c7;
+    border-radius: 6px;
 }
