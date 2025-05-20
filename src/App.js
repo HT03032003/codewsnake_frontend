@@ -26,6 +26,7 @@ import EditPost from "./pages/EditPost";
 import Document from "./pages/Document";
 import DocumentDetail from "./pages/DocumentDetail";
 import Quiz from "./pages/Quiz";
+import Progress from "./pages/Progress";
 
 import Dashboard from "./pages/Admin/Dashboard";
 import AdminAccounts from "./pages/Admin/AdminAccounts";
@@ -113,6 +114,7 @@ function AppContent() {
         <Route path="/document" element={<Document />} />
         <Route path="/document/:slug" element={<DocumentDetail />} />
         <Route path="/quiz/:slug" element={<Quiz />} />
+        <Route path="/progress" element={<Progress />} />
 
         {/* Admin Protected Routes */}
         <Route path="/admin/*" element={<ProtectedRoute />}>

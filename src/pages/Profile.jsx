@@ -94,6 +94,7 @@ const UserProfile = () => {
                         </div>
                     </div>
                     <a href="/profile/edit"><button className="btn">Sửa thông tin</button></a>
+                    <a href="/progress"><button className="btn">Xem tiến trình</button></a>
                 </div>
             </div>
         </div>
