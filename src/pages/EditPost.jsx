@@ -46,10 +46,7 @@ const EditPost = () => {
                 `${process.env.REACT_APP_API_URL}/dashboard/post/update/${id}/`,
                 formData,
                 {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data'
-                    }
+                    headers: { Authorization: `Bearer ${token}` },
                 }
             );
 
