@@ -77,7 +77,7 @@ const Progress = () => {
           <tbody>
             {exerciseList.map((ex, i) => (
               <tr key={i}>
-                <td style={tdStyle}>{ex.title}</td>
+                <td style={{ ...tdStyle, textAlign: 'left' }}>{ex.title}</td>
                 <td style={tdStyle}>{ex.difficulty}</td>
                 <td style={{
                   ...tdStyle,
