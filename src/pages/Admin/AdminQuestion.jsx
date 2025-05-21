@@ -1,52 +1,57 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Layout from "./Layout";
 
 const AdminQuestion = () => {
     const [questions, setQuestions] = useState([]);
-    const { id } = useParams();
+    const { id } = useParams(); // id ở đây là id của tài liệu (document)
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        axios.get(`${process.env.REACT_APP_API_URL}/dashboard/document/${id}/questions/`, {
-            headers: { Authorization: `Bearer ${token}` },
-        })
-            .then(res => setQuestions(res.data))
-            .catch(err => console.error("Lỗi khi lấy câu hỏi:", err));
+        axios
+            .get(`${process.env.REACT_APP_API_URL}/dashboard/document/${id}/questions/`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => setQuestions(res.data))
+            .catch((err) => console.error("Lỗi khi lấy câu hỏi:", err));
     }, [id]);
-    const handleDelete = async (postId) => {
-        const token = localStorage.getItem("accessToken");
 
-        if (!token) {
-            alert("Bạn chưa đăng nhập!");
-            return;
-        }
+  const handleDelete = async (questionId) => {
+    const token = localStorage.getItem("accessToken");
 
-        if (window.confirm("Bạn có chắc chắn muốn xóa bài đăng này không?")) {
-            try {
-                await axios.delete(`${process.env.REACT_APP_API_URL}/admin/posts/delete/${postId}/`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
+    if (!token) {
+      alert("Bạn chưa đăng nhập!");
+      return;
+    }
 
-                // setPosts((prev) => prev.filter((p) => p.id !== postId));
-                alert("Xóa thành công!");
-            } catch (error) {
-                console.error("Lỗi khi xóa bài đăng:", error);
-                alert("Không thể xóa! Kiểm tra quyền hoặc đăng nhập lại.");
-            }
-        }
-    };
+    if (window.confirm("Bạn có chắc chắn muốn xóa bài tập này không?")) {
+      try {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/dashboard/question/delete/${questionId}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        setQuestions((prev) => prev.filter((question) => question.id !== questionId));
+        alert("Xóa thành công!");
+      } catch (error) {
+        console.error("Lỗi khi xóa bài tập:", error);
+        alert("Không thể xóa! Kiểm tra quyền hoặc đăng nhập lại.");
+      }
+    }
+  };
+
 
     return (
         <Layout>
             <div className="admin-wrapper">
                 <div style={{ textAlign: "center", marginBottom: "20px" }}>
                     <Link to={`/admin/document/${id}/question/create`}>
-                        <button className="admin-btn edit">Thêm câu hỏi</button>
+                        <button className="admin-btn edit">+ Thêm câu hỏi</button>
                     </Link>
                 </div>
+
                 <h2 className="admin-title">Danh sách câu hỏi</h2>
+
                 <div className="admin-card">
                     <div className="table-scroll-container">
                         <table className="admin-table">
@@ -80,8 +85,8 @@ const AdminQuestion = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="8" style={{ textAlign: "center" }}>
-                                            Không có bài đăng nào!
+                                        <td colSpan="4" style={{ textAlign: "center" }}>
+                                            Không có câu hỏi nào!
                                         </td>
                                     </tr>
                                 )}
