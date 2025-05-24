@@ -241,3 +241,86 @@
     cursor: pointer; 
     margin-left: 4px; 
 }
+
+/* --- Neon Reply-form cho comment thread --- */
+.reply-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 12px;
+    margin-top: 6px;
+    width: 100%;
+}
+
+.reply-form input[type="text"] {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: rgba(103, 232, 249, 0.12);
+    border: 1.7px solid #67e8f944;
+    color: #e0faff;
+    font-family: 'Tektur', sans-serif;
+    outline: none;
+    font-size: 15px;
+    transition: border 0.18s, box-shadow 0.18s, background 0.18s;
+    box-shadow: 0 2px 12px #38bdf822;
+}
+
+.reply-form input[type="text"]:focus {
+    border: 2px solid #67e8f9;
+    background: rgba(103, 232, 249, 0.20);
+    box-shadow: 0 0 14px #67e8f966, 0 2px 12px #67e8f944;
+    color: #fff;
+}
+
+.reply-form button {
+    background: linear-gradient(90deg, #67e8f9 0%, #38bdf8 100%);
+    color: #0f172a;
+    font-weight: 700;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 15px;
+    box-shadow: 0 2px 12px #38bdf822;
+    letter-spacing: 0.01em;
+    transition: background 0.16s, color 0.16s, box-shadow 0.18s;
+}
+
+.reply-form button:hover {
+    background: linear-gradient(90deg, #38bdf8 0%, #67e8f9 100%);
+    color: #fff;
+    box-shadow: 0 4px 18px #67e8f9bb, 0 2px 10px #38bdf822;
+}
+
+/* Gọn lại cho reply-btn */
+.reply-btn {
+    background: none;
+    color: #67e8f9;
+    border: none;
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 13px;
+    font-family: 'Tektur', sans-serif;
+    padding: 0 3px;
+    transition: color 0.16s;
+}
+.reply-btn:hover {
+    color: #38bdf8;
+    text-decoration: underline;
+}
+
+/* Responsive nhỏ cho reply-form và comment-form */
+@media (max-width: 600px) {
+    .reply-form input[type="text"],
+    .comment-form input[type="text"] {
+        font-size: 12px;
+        padding: 8px 8px;
+    }
+    .reply-form button,
+    .comment-form button {
+        font-size: 12px;
+        padding: 8px 14px;
+    }
+    .reply-form { margin-left: 2px; }
+}
