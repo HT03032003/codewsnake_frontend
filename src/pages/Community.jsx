@@ -1,7 +1,9 @@
+// Community.js
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Routes, Route } from 'react-router-dom';
 import { FaBell } from "react-icons/fa";
 import axios from "axios";
+import Post from "./Post"; // Import đúng đường dẫn!
 import '../styles/community.css';
 
 const Community = () => {
@@ -21,57 +23,48 @@ const Community = () => {
             try {
                 const token = localStorage.getItem('accessToken');
                 if (!token) throw new Error('No token found');
-
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile/`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-
                 setUser(response.data);
             } catch (error) {
-                console.error('Failed to fetch user:', error);
                 setUser(null);
             }
         };
-
         fetchUser();
     }, []);
 
     // Fetch posts
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/community/posts/`)
-            .then((response) => {
-                setPosts(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching posts:", error);
-            });
+            .then((response) => setPosts(response.data))
+            .catch(() => {});
     }, []);
 
-    useEffect(() => {
-        // Chỉ fetch nếu đã đăng nhập
+    // Fetch notifications (chỉ khi đăng nhập)
+    const fetchNotifications = async () => {
         const token = localStorage.getItem('accessToken');
         if (token) {
-            axios.get(`${process.env.REACT_APP_API_URL}/community/notifications/`, {
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/community/notifications/`, {
                 headers: { Authorization: `Bearer ${token}` }
-            })
-                .then(res => setNotifications(res.data))
-                .catch(err => setNotifications([]));
-        }
-    }, []);
-
-    // Handle form input changes
-    const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        if (name === "image") {
-            setImage(files[0]);
-        } else if (name === "title") {
-            setTitle(value);
-        } else if (name === "content") {
-            setContent(value);
+            });
+            setNotifications(res.data);
         }
     };
 
-    // Handle form submission
+    useEffect(() => { fetchNotifications(); }, [user]);
+
+    // Số thông báo chưa đọc
+    const unreadCount = notifications.filter(n => !n.is_read).length;
+
+    // Form handlers
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        if (name === "image") setImage(files[0]);
+        else if (name === "title") setTitle(value);
+        else if (name === "content") setContent(value);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -79,35 +72,23 @@ const Community = () => {
         formData.append("content", content);
         formData.append("author", user?.user?.id);
         if (image) formData.append("image", image);
-
         try {
             const token = localStorage.getItem('accessToken');
-            if (!token) {
-                navigate("/login");
-                return;
-            }
-
-            // Gửi yêu cầu tạo bài viết
+            if (!token) return navigate("/login");
             await axios.post(`${process.env.REACT_APP_API_URL}/community/posts/create/`, formData, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
                 },
             });
-
-            // Cập nhật danh sách bài viết
             const postsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/community/posts/`);
             setPosts(postsResponse.data);
-            setShowForm(false); // Ẩn form sau khi gửi thành công
-            setTitle('');
-            setContent('');
-            setImage(null);
-
-        } catch (error) {
-            console.error("Error creating post:", error);
-        }
+            setShowForm(false);
+            setTitle(''); setContent(''); setImage(null);
+        } catch (error) {}
     };
 
+    // Render
     return (
         <div className="community-container">
             <div className="community-left">
@@ -129,98 +110,60 @@ const Community = () => {
                         <div className="user-header">
                             <h2>{user.user.username}</h2>
                             <div style={{ position: "relative" }}>
-                                <button
-                                    className="notification-bell"
-                                    onClick={() => setShowNoti((v) => !v)}
-                                >
+                                <button className="notification-bell" onClick={() => setShowNoti(v => !v)}>
                                     <FaBell />
-                                    {notifications.some(n => !n.is_read) && (
-                                        <span className="notification-dot" />
-                                    )}
+                                    <span className="notification-dot"></span>
                                 </button>
                                 {showNoti && (
                                     <div className="notification-dropdown">
                                         <h4>Thông báo</h4>
-                                        {notifications.length === 0 ? (
-                                            <div className="notification-empty">Không có thông báo mới.</div>
-                                        ) : (
-                                            notifications.map((noti) => (
-                                                <div key={noti.id} className={`notification-item${!noti.is_read ? ' unread' : ''}`}>
-                                                    <Link to={`/post/${noti.post}`} onClick={() => setShowNoti(false)}>
-                                                        <b>{noti.sender_name}</b> {noti.notification_type === 'comment' ? 'đã bình luận' : 'đã thích'} bài <b>{noti.post_title}</b>
-                                                    </Link>
-                                                    <span className="noti-time">{new Date(noti.created_at).toLocaleString()}</span>
-                                                </div>
-                                            ))
-                                        )}
+                                        <div style={{ maxHeight: "260px", overflowY: "auto" }}>
+                                            {notifications.length === 0 ? (
+                                                <div className="notification-empty">Không có thông báo mới.</div>
+                                            ) : (
+                                                notifications.map((noti) => (
+                                                    <div key={noti.id} className={`notification-item${!noti.is_read ? ' unread' : ''}`}>
+                                                        <Link to={`/post/${noti.post}`} onClick={() => setShowNoti(false)}>
+                                                            <b>{noti.sender_name}</b> {noti.notification_type === 'comment' ? 'đã bình luận' : 'đã thích'} bài <b>{noti.post_title}</b>
+                                                        </Link>
+                                                        <span className="noti-time">{new Date(noti.created_at).toLocaleString()}</span>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </div>
-                            <button
-                                className="btn"
-                                onClick={() => {
-                                    const token = localStorage.getItem("accessToken");
-                                    if (!token) {
-                                        navigate("/login");
-                                    } else {
-                                        setShowForm(!showForm);
-                                    }
-                                }}
-                            >
-                                +
-                            </button>
+                            <button className="btn" onClick={() => {
+                                const token = localStorage.getItem("accessToken");
+                                if (!token) navigate("/login");
+                                else setShowForm(!showForm);
+                            }}>+</button>
                         </div>
                     ) : (
                         <h2>Cộng đồng lập trình Python</h2>
                     )}
                 </div>
 
-
-                {/* Form for creating a new post */}
                 {showForm && (
                     <div className="community-post-form">
                         <h3>Tạo bài đăng mới</h3>
                         <form onSubmit={handleSubmit}>
-                            <input
-                                type="text"
-                                name="title"
-                                placeholder="Tiêu đề"
-                                value={title}
-                                onChange={handleChange}
-                                required
-                            />
-                            <textarea
-                                name="content"
-                                placeholder="Nội dung"
-                                value={content}
-                                onChange={handleChange}
-                                required
-                            />
-
-                            {/* Nút bấm tải ảnh */}
+                            <input type="text" name="title" placeholder="Tiêu đề" value={title} onChange={handleChange} required />
+                            <textarea name="content" placeholder="Nội dung" value={content} onChange={handleChange} required />
                             <label htmlFor="image" style={{ textAlign: "left" }}>+ Thêm hình ảnh</label>
-                            <input
-                                id="image"
-                                type="file"
-                                name="image"
-                                accept="image/*"
-                                onChange={handleChange}
-                            />
-
-                            {/* Hiển thị tên ảnh hoặc hình ảnh đã tải lên */}
-                            {image && (
-                                <div className="file-name">
-                                    <p>{image.name}</p>
-                                    <img src={URL.createObjectURL(image)} alt="Image preview" className="preview-image" />
-                                </div>
-                            )}
-
+                            <input id="image" type="file" name="image" accept="image/*" onChange={handleChange} />
+                            {image && (<div className="file-name"><p>{image.name}</p><img src={URL.createObjectURL(image)} alt="Image preview" className="preview-image" /></div>)}
                             <button type="submit" className="btn">Đăng bài</button>
                         </form>
                     </div>
                 )}
 
-                {/* Display list of posts */}
+                {/* Route bài post - truyền setNotifications vào Post để nó update sau khi comment/like */}
+                <Routes>
+                    <Route path="/post/:id" element={<Post setNotifications={setNotifications} fetchNotifications={fetchNotifications} />} />
+                </Routes>
+
                 <div className="community-posts-container">
                     {posts.length > 0 ? (
                         posts.map((post) => (
@@ -228,18 +171,13 @@ const Community = () => {
                                 <div key={post.id} className="community-post-card">
                                     <h3>{post.title}</h3>
                                     <p className="content-post">{post.content}</p>
-                                    {post.image ? (
-                                        <img src={post.image} alt={post.title} />
-                                    ) : ''}
+                                    {post.image ? (<img src={post.image} alt={post.title} />) : ''}
                                 </div>
                             </Link>
                         ))
-                    ) : (
-                        <p>No posts yet.</p>
-                    )}
+                    ) : (<p>No posts yet.</p>)}
                 </div>
             </div>
-
         </div>
     );
 };

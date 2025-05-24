@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import CommentThread from "../components/CommentThread"; // ĐÚNG IMPORT!
+import CommentThread from "../components/CommentThread";
 import "../styles/post.css";
 
-const Post = () => {
+const Post = ({ setNotifications, fetchNotifications }) => {
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -15,26 +15,20 @@ const Post = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [user, setUser] = useState(null);
 
-    // Lấy thông tin bài viết
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/community/post/${id}/`)
             .then(response => setPost(response.data))
-            .catch(error => {
-                console.error("Error fetching post:", error);
-                setError("Không tìm thấy bài viết.");
-            });
-
+            .catch(() => setError("Không tìm thấy bài viết."));
         const token = localStorage.getItem('accessToken');
         if (token) {
             axios.get(`${process.env.REACT_APP_API_URL}/community/post/${id}/vote/`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
                 .then(response => setUserVote(response.data.vote_type))
-                .catch(error => console.error("Error fetching vote:", error));
+                .catch(() => {});
         }
     }, [id]);
 
-    // Lấy user
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -44,8 +38,7 @@ const Post = () => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUser(response.data);
-            } catch (error) {
-                console.error('Failed to fetch user:', error);
+            } catch {
                 setUser(null);
             }
         };
@@ -59,28 +52,25 @@ const Post = () => {
         try {
             const token = localStorage.getItem('accessToken');
             if (!token) throw new Error('No token found');
-
             const response = await axios.post(
                 `${process.env.REACT_APP_API_URL}/community/post/${id}/vote/`,
                 { vote_type: voteType },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-
             if (response.data.message === 'Vote added' || response.data.message === 'Vote updated') {
                 setUserVote(voteType);
             } else if (response.data.message === 'Vote removed') {
                 setUserVote(null);
             }
-
-            // Gọi lại post cho đúng upvote/downvote
             const postRes = await axios.get(`${process.env.REACT_APP_API_URL}/community/post/${id}/`);
             setPost(postRes.data);
-        } catch (error) {
-            console.error("Error voting:", error);
-        }
+
+            // CẬP NHẬT THÔNG BÁO
+            if (typeof fetchNotifications === 'function') fetchNotifications();
+        } catch (error) {}
     };
 
-    // Thêm comment mới (hoặc reply)
+    // Comment (và reply)
     const handleAddComment = async (content, parentId = null) => {
         try {
             const token = localStorage.getItem('accessToken');
@@ -92,12 +82,12 @@ const Post = () => {
                 data,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            // Lấy lại post để update bình luận
             const postRes = await axios.get(`${process.env.REACT_APP_API_URL}/community/post/${id}/`);
             setPost(postRes.data);
-        } catch (error) {
-            console.error("Error adding comment:", error);
-        }
+
+            // CẬP NHẬT THÔNG BÁO
+            if (typeof fetchNotifications === 'function') fetchNotifications();
+        } catch (error) {}
     };
 
     const handleCommentSubmit = (e) => {
@@ -116,15 +106,12 @@ const Post = () => {
             });
             alert("Bài viết đã được xóa.");
             navigate("/community");
-        } catch (error) {
-            console.error("Error deleting post:", error);
+        } catch {
             alert("Xóa thất bại.");
         }
     };
 
-    const toggleMenu = () => {
-        setShowMenu(!showMenu);
-    };
+    const toggleMenu = () => setShowMenu(!showMenu);
 
     if (error) return <p className="error">{error}</p>;
     if (!post) return <p>Loading...</p>;
@@ -146,20 +133,14 @@ const Post = () => {
                         </div>
                     )}
                 </div>
-
                 <p className="content">{post.content}</p>
-                {post.image && (
-                    <img src={`${post.image}`} alt={post.title} className="post-image" />
-                )}
+                {post.image && (<img src={`${post.image}`} alt={post.title} className="post-image" />)}
                 <p><strong>Tác giả:</strong> {post.author}</p>
-
                 <div className="vote-buttons">
                     <button onClick={() => handleVote(1)} disabled={userVote === 1} className="vote-btn">👍</button>
                     <button onClick={() => handleVote(-1)} disabled={userVote === -1} className="btn">👎</button>
                 </div>
-
                 <p><strong>👍 Upvotes:</strong> {post.upvotes} | <strong>👎 Downvotes:</strong> {post.downvotes}</p>
-
                 <div className="comment-section">
                     <h3>Bình luận</h3>
                     {post.comments && post.comments.length > 0 ? (
@@ -170,11 +151,7 @@ const Post = () => {
                                 onReply={(parentId, content) => handleAddComment(content, parentId)}
                             />
                         ))
-                    ) : (
-                        <p>Chưa có bình luận.</p>
-                    )}
-
-                    {/* Form bình luận gốc */}
+                    ) : (<p>Chưa có bình luận.</p>)}
                     <form onSubmit={handleCommentSubmit} className="comment-form">
                         <input
                             type="text"
