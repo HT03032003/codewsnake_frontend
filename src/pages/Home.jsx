@@ -60,7 +60,6 @@ const Home = () => {
           <div className="feature-text">
             <p className="tagline">Bài tập</p>
             <h2>Học Python thông qua các bài tập</h2>
-            <p className="tagline">Bài tập</p>
             <p>
               Đọc, hiểu, trả lời các câu hỏi Python với ba mức độ: Dễ, Trung Bình, Khó. Kiểm tra câu trả lời đúng hay sai.
             </p>

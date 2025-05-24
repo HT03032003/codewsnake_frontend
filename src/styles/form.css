@@ -68,7 +68,7 @@
 }
 
 .form__input {
-    width: 85%;
+    width: 100%;
     font-family: 'Orbitron', sans-serif;
     padding: 12px 12px 12px 40px;
     background: transparent;

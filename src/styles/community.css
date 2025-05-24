@@ -7,20 +7,22 @@
     max-width: 1280px;
     margin: auto;
     font-family: 'Tektur', sans-serif;
-  }
-  
-  /* Cột trái - Bài viết cá nhân */
-  .community-left {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* Cột trái - Bài viết cá nhân */
+.community-left {
     flex: 1.2;
     position: sticky;
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
     padding: 24px;
     backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.12);
     outline: 1px solid rgba(0, 255, 255, 0.1);
-
     box-shadow:
         0 8px 32px rgba(0, 255, 255, 0.15),
         0 4px 10px rgba(255, 255, 255, 0.08),
@@ -28,49 +30,22 @@
         inset 0 0 40px rgba(0, 255, 255, 0.06);
     height: fit-content;
     top: 50px;
-  }
-  
-  .user-posts-section h3 {
-    color: #67e8f9;
-    font-size: 20px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 8px;
-    text-align: center;
-  }
-  
-  .community-post-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  
-  .community-post-list .community-post-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 14px 16px;
-    text-decoration: none;
-    color: white;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0, 255, 255, 0.04);
-  }
-  
-  .community-post-list .community-post-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 255, 255, 0.06);
-  }
-  
-  /* Cột phải - Cộng đồng */
-  .community-right {
+    min-width: 0;
+    max-width: 340px;
+    overflow-x: hidden;
+}
+
+/* Cột phải - Cộng đồng */
+.community-right {
     flex: 3;
     display: flex;
     flex-direction: column;
-  }
-  
-  /* Header */
-  .community-header {
+    min-width: 0;
+    width: 100%;
+}
+
+/* Header */
+.community-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -79,145 +54,226 @@
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 4px 18px rgba(0, 255, 255, 0.04);
-  }
-  .user-header {
+    margin-bottom: 16px;
+    min-width: 0;
+    width: 100%;
+}
+
+.user-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-  }
-  
-  
-  .community-header h2 {
+}
+
+.community-header h2 {
     font-size: 22px;
     color: #67e8f9;
-  }
-  
-  .community-add-post-button {
+}
+
+.community-add-post-button, .btn {
     font-size: 22px;
-    padding: 4px 12px;
+    padding: 4px 16px;
     border-radius: 8px;
-    background: #67e8f9;
+    background: linear-gradient(90deg, #67e8f9 0%, #38bdf8 100%);
     color: #0f172a;
     font-weight: bold;
     border: none;
     cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .community-add-post-button:hover {
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px #38bdf822;
+    margin-left: 10px;
+}
+.community-add-post-button:hover, .btn:hover {
     background: #38bdf8;
-  }
-  
-  /* Form tạo bài đăng */
-  .community-post-form {
+    color: #fff;
+}
+
+/* Form tạo bài đăng */
+.community-post-form {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 18px;
     padding: 24px;
     box-shadow: inset 0 0 16px rgba(0, 255, 255, 0.02);
-  }
-  
-  .community-post-form h3 {
+    margin-bottom: 20px;
+    min-width: 0;
+}
+
+.community-post-form h3 {
     color: #67e8f9;
     font-size: 18px;
     margin-bottom: 20px;
-  }
-  
-  .community-post-form form {
+}
+
+.community-post-form form {
     display: flex;
     flex-direction: column;
     gap: 14px;
-  }
-  
-  .community-post-form input[type="text"],
-  .community-post-form textarea {
+    min-width: 0;
+}
+
+.community-post-form input[type="text"],
+.community-post-form textarea {
     padding: 10px 14px;
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.04);
     color: white;
     outline: none;
-  }
-  
-  .community-post-form button {
-    background: #67e8f9;
+    font-size: 16px;
+    font-family: 'Tektur', sans-serif;
+    min-width: 0;
+}
+
+.community-post-form button {
+    background: linear-gradient(90deg, #67e8f9 0%, #38bdf8 100%);
     color: #0f172a;
     padding: 10px;
     border: none;
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
-  }
-  
-  .community-post-form button:hover {
+    font-family: 'Tektur', sans-serif;
+    margin-top: 8px;
+    box-shadow: 0 2px 8px #38bdf822;
+}
+
+.community-post-form button:hover {
     background: #38bdf8;
-  }
-  
-  .preview-image {
+    color: #fff;
+}
+
+.preview-image {
     width: 100%;
     max-height: 180px;
     object-fit: cover;
     border-radius: 12px;
     margin-top: 8px;
-  }
-  
-  /* Danh sách post cộng đồng */
-  .community-posts-container {
-    width: 90%;
+}
+
+/* Danh sách post cộng đồng */
+.community-posts-container {
+    width: 100%;
+    min-width: 0;
     margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    padding: 20px 0;
     flex-grow: 1;
-  }
-  .my-post{
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 16px;
-    text-decoration: none;
-    text-align: justify;
-    color: white;
-    box-shadow: 0 6px 18px rgba(0, 255, 255, 0.04);
-    transition: all 0.3s ease;
-  }
-  .community-post-card {
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+.my-post, .community-post-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: 16px;
     padding: 18px;
     text-decoration: none;
+    text-align: justify;
     color: white;
     box-shadow: 0 6px 18px rgba(0, 255, 255, 0.04);
-    transition: all 0.3s ease;
+    transition: all 0.3s;
     margin-bottom: 10px;
-  }
-  .my-post:hover,
-  .community-post-card:hover {
+    min-width: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+.my-post:hover, .community-post-card:hover {
     background: rgba(255, 255, 255, 0.06);
     transform: translateY(-4px);
     box-shadow: 0 10px 24px rgba(0, 255, 255, 0.08);
-  }
-  
-  .community-post-card h3 {
+}
+
+.community-post-card h3 {
     font-size: 17px;
     color: #67e8f9;
     margin-bottom: 10px;
-  }
-  
-  .community-post-card p {
+}
+
+.community-post-card p, .content-post {
     font-size: 14px;
     color: #cbd5e1;
-    line-height: 1.4;
+    line-height: 1.5;
     text-align: justify;
-  }
-  
-  .community-post-card img {
+    margin-bottom: 0;
+    word-break: break-word;
+}
+
+.community-post-card img {
     width: 80%;
-    height: 100%;
+    height: auto;
     margin-top: 12px;
     border-radius: 10px;
     object-fit: cover;
     max-height: 180px;
-  }
-  
+}
+
+.user-posts-section h3 {
+    color: #67e8f9;
+    font-size: 20px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+.community-post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.community-post-list .community-post-card, .community-post-list .my-post {
+    padding: 10px 14px;
+    font-size: 15px;
+    min-width: 0;
+}
+
+.file-name {
+    color: #38bdf8;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+label[for="image"] {
+    cursor: pointer;
+    color: #67e8f9;
+    margin-top: 8px;
+    font-size: 15px;
+    display: block;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* Responsive (Rất quan trọng để không vỡ layout) */
+@media (max-width: 1100px) {
+    .community-container {
+        flex-direction: column;
+        gap: 22px;
+        padding: 24px 5vw;
+    }
+    .community-left, .community-right {
+        max-width: 100%;
+        min-width: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 700px) {
+    .community-container {
+        flex-direction: column;
+        gap: 18px;
+        padding: 12px 2vw;
+    }
+    .community-header, .community-post-form {
+        padding: 10px 4vw;
+    }
+    .community-post-card, .my-post {
+        padding: 12px 5vw;
+        font-size: 13px;
+    }
+    .community-post-card h3 { font-size: 15px;}
+    .user-posts-section h3 { font-size: 17px;}
+}

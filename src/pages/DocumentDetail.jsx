@@ -28,13 +28,13 @@ const DocumentDetail = () => {
                 <h2 className="document-title">{document.title}</h2>
             </div>
 
-            <article className="document-content">
+            <div className="document-visual-wrapper">
                 <img src="/images/robot-hand.png" alt="Robot Hand" className="robot-hand-outside robot-hand-outside-left" />
                 <img src="/images/robot-hand.png" alt="Robot Hand" className="robot-hand-outside robot-hand-outside-right" />
-                <section className="content">
-                    {parse(document.content)}
-                </section>
-            </article>
+                <article className="document-content">
+                    <section className="content">{parse(document.content)}</section>
+                </article>
+            </div>
 
             <div className="quiz-button-container">
                 <Link to={`/quiz/${document.slug}`}>

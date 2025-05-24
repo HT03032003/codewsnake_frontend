@@ -224,3 +224,20 @@
     text-align: center;
     margin-top: 60px;
 }
+
+.comment-thread { 
+    border-left: 2px solid #f1f1f1; 
+    padding-left: 12px; 
+    margin-bottom: 8px; 
+}
+.reply-form { 
+    margin-left: 12px; 
+    margin-top: 4px; 
+}
+.reply-btn { 
+    background: none; 
+    color: #2196f3; 
+    border: none; 
+    cursor: pointer; 
+    margin-left: 4px; 
+}
