@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import { FaBell } from "react-icons/fa";
 import axios from "axios";
 import '../styles/community.css';
 
@@ -10,6 +11,8 @@ const Community = () => {
     const [content, setContent] = useState('');
     const [image, setImage] = useState(null);
     const [showForm, setShowForm] = useState(false);
+    const [notifications, setNotifications] = useState([]);
+    const [showNoti, setShowNoti] = useState(false);
     const navigate = useNavigate();
 
     // Fetch user info
@@ -42,6 +45,18 @@ const Community = () => {
             .catch((error) => {
                 console.error("Error fetching posts:", error);
             });
+    }, []);
+
+    useEffect(() => {
+        // Chỉ fetch nếu đã đăng nhập
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            axios.get(`${process.env.REACT_APP_API_URL}/community/notifications/`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+                .then(res => setNotifications(res.data))
+                .catch(err => setNotifications([]));
+        }
     }, []);
 
     // Handle form input changes
@@ -113,6 +128,34 @@ const Community = () => {
                     {user ? (
                         <div className="user-header">
                             <h2>{user.user.username}</h2>
+                            <div style={{ position: "relative" }}>
+                                <button
+                                    className="notification-bell"
+                                    onClick={() => setShowNoti((v) => !v)}
+                                >
+                                    <FaBell />
+                                    {notifications.some(n => !n.is_read) && (
+                                        <span className="notification-dot" />
+                                    )}
+                                </button>
+                                {showNoti && (
+                                    <div className="notification-dropdown">
+                                        <h4>Thông báo</h4>
+                                        {notifications.length === 0 ? (
+                                            <div className="notification-empty">Không có thông báo mới.</div>
+                                        ) : (
+                                            notifications.map((noti) => (
+                                                <div key={noti.id} className={`notification-item${!noti.is_read ? ' unread' : ''}`}>
+                                                    <Link to={`/post/${noti.post}`} onClick={() => setShowNoti(false)}>
+                                                        <b>{noti.sender_name}</b> {noti.notification_type === 'comment' ? 'đã bình luận' : 'đã thích'} bài <b>{noti.post_title}</b>
+                                                    </Link>
+                                                    <span className="noti-time">{new Date(noti.created_at).toLocaleString()}</span>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                             <button
                                 className="btn"
                                 onClick={() => {
